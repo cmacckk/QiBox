@@ -1,0 +1,270 @@
+/* 桌面外壳层：窗口几何、拖动区、面板窗口形态。
+   视觉主体仍在 base.css（由已确认设计稿逐条迁移），这里只做桌面化所需的覆盖。 */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input,
+textarea,
+[contenteditable='true'] {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+body {
+  cursor: default;
+}
+
+#nano-interface {
+  height: 100%;
+  background: transparent;
+}
+
+/* ---------- 主窗口 ---------- */
+
+body.main-page .mn-stage {
+  height: 100%;
+}
+
+body.main-page .mn-app {
+  border-radius: var(--mn-radius);
+  border: 1px solid #d8dde6;
+  overflow: hidden;
+}
+
+/* 标题栏拖动区：只有标题栏本身可拖动，按钮不继承 */
+.mn-title[data-tauri-drag-region] {
+  -webkit-app-region: drag;
+}
+
+.mn-title-actions,
+.mn-title-actions * {
+  -webkit-app-region: no-drag;
+}
+
+body.main-page .mn-app[hidden] {
+  display: none !important;
+}
+
+/* ---------- 面板窗口（设置 / 编辑 / 主题等） ---------- */
+
+body.panel-page #nano-interface {
+  height: 100%;
+}
+
+body.panel-page .mn-stage {
+  height: 100%;
+  overflow: hidden;
+}
+
+body.panel-page #nano-interface .mn-dialog {
+  position: absolute;
+  inset: 0;
+  top: 0;
+  left: 0;
+  transform: none;
+  width: auto;
+  max-width: none;
+  max-height: none;
+  height: 100%;
+  border-radius: var(--mn-radius);
+  z-index: 5;
+}
+
+body.panel-page .mn-dialog.small,
+body.panel-page .mn-dialog.medium {
+  width: auto;
+}
+
+body.panel-page .mn-dialog-content {
+  flex: 1;
+  min-height: 0;
+}
+
+body.panel-page .mn-dialog-content.flush {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body.panel-page .mn-settings {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+}
+
+body.panel-page .mn-theme-layout {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+}
+
+body.panel-page .mn-theme-body {
+  overflow-y: auto;
+}
+
+body.panel-page .mn-dialog-title {
+  -webkit-app-region: drag;
+}
+
+body.panel-page .mn-dialog-title button {
+  -webkit-app-region: no-drag;
+}
+
+/* 面板窗口里的二级浮层：覆盖在面板内部，不被裁切 */
+body.panel-page .mn-scrim {
+  border-radius: var(--mn-radius);
+  z-index: 6;
+}
+
+body.panel-page .mn-dialog.has-dialog-parent {
+  box-shadow: none;
+}
+
+body.panel-page .mn-menu {
+  max-height: calc(100% - 16px);
+}
+
+/* ---------- 演示态提示 ---------- */
+
+.mn-preview-note {
+  letter-spacing: 0.2px;
+}
+
+.mn-demo-tag {
+  color: #9aa5b8;
+}
+
+.mn-restore,
+.mn-dropstate-host {
+  display: none !important;
+}
+
+/* 数字框在设置页里右对齐已有规则，这里保持原生外观 */
+input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+/* 焦点样式：桌面端用细描边，避免抢视觉 */
+#nano-interface .mn-item:focus-visible,
+#nano-interface .mn-category:focus-visible {
+  outline: 2px solid var(--mn-accent);
+  outline-offset: -2px;
+}
+
+/* 图标选择器 */
+#nano-interface .mn-icongrid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 6px;
+  max-height: 380px;
+  overflow: auto;
+  padding: 2px;
+}
+
+#nano-interface .mn-iconchoice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  border: var(--mn-border);
+  border-radius: var(--mn-radius);
+  background: #fff;
+  color: var(--mn-text);
+}
+
+#nano-interface .mn-iconchoice:hover {
+  border-color: var(--mn-accent);
+  color: var(--mn-accent);
+}
+
+/* 拖动排序：主窗口与分类栏共用 */
+body.mn-reordering,
+body.mn-reordering #nano-interface * {
+  cursor: grabbing;
+  user-select: none;
+}
+#nano-interface .mn-item.dragging,
+#nano-interface .mn-category.dragging {
+  opacity: 0.45;
+}
+#nano-interface .mn-item {
+  position: relative;
+}
+#nano-interface .mn-item.drop-before::before,
+#nano-interface .mn-item.drop-after::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  height: 2px;
+  background: var(--mn-accent);
+  border-radius: 1px;
+  z-index: 2;
+}
+#nano-interface .mn-item.drop-before::before {
+  top: -1px;
+}
+#nano-interface .mn-item.drop-after::after {
+  bottom: -1px;
+}
+#nano-interface .mn-category.drop-before {
+  box-shadow: inset 0 2px 0 var(--mn-accent);
+}
+#nano-interface .mn-category.drop-target {
+  background: var(--mn-soft);
+  color: var(--mn-accent);
+  outline: 2px solid var(--mn-accent);
+  outline-offset: -2px;
+}
+
+/* 背景图片：整窗铺一层，内容叠在上面；透明度只作用于图片本身 */
+:root {
+  --mn-bg-image: none;
+  --mn-bg-size: cover;
+  --mn-bg-repeat: no-repeat;
+  --mn-bg-position: center;
+  --mn-bg-opacity: 1;
+}
+#nano-interface .mn-app {
+  position: relative;
+}
+#nano-interface .mn-app::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--mn-bg-image);
+  background-size: var(--mn-bg-size);
+  background-repeat: var(--mn-bg-repeat);
+  background-position: var(--mn-bg-position);
+  opacity: var(--mn-bg-opacity);
+  pointer-events: none;
+  z-index: 0;
+}
+#nano-interface .mn-app > * {
+  position: relative;
+  z-index: 1;
+}
+#nano-interface .mn-app.has-bg {
+  background: transparent;
+}
+/* 分类口令：有口令的分类右侧挂一把小锁，解锁状态只存在本次运行。 */
+#nano-interface .mn-category .mn-lock{display:inline-flex;align-items:center;margin-left:4px;opacity:.5;vertical-align:middle}
+/* 图片图标 */
+#nano-interface .mn-item-img{width:18px;height:18px;object-fit:contain;border-radius:3px;display:block}
+#nano-interface .view-icons .mn-item-img,#nano-interface .view-tiles .mn-item-img{width:24px;height:24px}

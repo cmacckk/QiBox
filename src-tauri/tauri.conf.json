@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "QiBox",
+  "version": "0.1.0",
+  "identifier": "cc.qibox.desktop",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "工具箱",
+        "width": 380,
+        "height": 560,
+        "minWidth": 360,
+        "minHeight": 520,
+        "resizable": true,
+        "maximizable": true,
+        "decorations": false,
+        "transparent": true,
+        "shadow": false,
+        "center": true,
+        "visible": true,
+        "skipTaskbar": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.ico"
+    ],
+    "shortDescription": "紧凑型 Windows 工具箱",
+    "longDescription": "QiBox 是紧凑的 Windows 工具箱：分类管理 CLI/GUI/脚本/网址，支持项目与分类拖动排序、拼音搜索、主题与背景图、Maye 配置导入、插件与脚本。"
+  }
+}

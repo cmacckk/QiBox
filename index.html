@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>工具箱</title>
+  </head>
+  <body class="main-page">
+    <div id="nano-interface" aria-label="工具箱">
+      <div class="mn-stage">
+        <section class="mn-app" aria-label="工具箱主窗口">
+          <header class="mn-title" data-tauri-drag-region>
+            <span class="mn-brand">工具箱</span>
+            <div class="mn-title-actions">
+              <button data-act="pin" aria-label="保持显示" data-tooltip="保持显示"><i data-lucide="pin" aria-hidden="true"></i></button>
+              <button data-act="search" aria-label="搜索" data-tooltip="搜索"><i data-lucide="search" aria-hidden="true"></i></button>
+              <button data-act="mainmenu" aria-label="主菜单" data-tooltip="菜单"><i data-lucide="menu" aria-hidden="true"></i></button>
+              <button data-act="minimize" aria-label="最小化" data-tooltip="最小化"><i data-lucide="minus" aria-hidden="true"></i></button>
+              <button data-act="hide" aria-label="最小化窗口" data-tooltip="最小化（未启用托盘）"><i data-lucide="x" aria-hidden="true"></i></button>
+            </div>
+          </header>
+          <div class="mn-searchbar" hidden>
+            <i data-lucide="search" aria-hidden="true"></i>
+            <input aria-label="搜索项目" placeholder="搜索… 关键词 / 正则表达式 / 终端命令" />
+            <button data-act="searchclose" aria-label="退出搜索"><i data-lucide="x" aria-hidden="true"></i></button>
+          </div>
+          <div class="mn-layout">
+            <nav class="mn-categories" aria-label="分类"></nav>
+            <main class="mn-items" aria-label="工具列表">
+              <div class="mn-breadcrumb" hidden></div>
+              <div class="mn-batchbar" hidden></div>
+              <div class="mn-itembody" aria-live="polite"></div>
+            </main>
+          </div>
+          <footer class="mn-status">
+            <span class="mn-footer-left">右键管理项目</span>
+            <span class="mn-footer-right">
+              <span data-role="footer-hint"></span>
+              <button data-act="newmenu" aria-label="添加项目" data-tooltip="添加项目"><i data-lucide="plus" aria-hidden="true"></i></button>
+            </span>
+          </footer>
+        </section>
+        <div class="mn-scrim" hidden></div>
+        <section class="mn-dialog" role="dialog" aria-modal="true" aria-labelledby="mn-dialog-title" hidden></section>
+        <div class="mn-menu" role="menu" aria-label="操作菜单" hidden></div>
+        <div class="mn-toast" role="status" hidden></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
